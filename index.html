@@ -1066,6 +1066,202 @@
     }
 
     /* ══════════════════════════════════════
+       SURPRISE BOX
+    ══════════════════════════════════════ */
+    #surprisebox {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: rgba(8,4,14,0.8);
+    }
+
+    .sb-eyebrow { display:block; margin-bottom:0.5rem; }
+    .sb-title   { margin-bottom:1.5rem; }
+
+    .gift-wrap {
+      display: inline-block;
+      cursor: pointer;
+      position: relative;
+      margin: 2rem auto;
+      perspective: 600px;
+      user-select: none;
+    }
+
+    /* Box body */
+    .gift-body {
+      width: 140px;
+      height: 110px;
+      background: linear-gradient(135deg, #1a0a2e 0%, #2a0a3e 100%);
+      border: 2px solid var(--gold);
+      border-radius: 6px 6px 10px 10px;
+      position: relative;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.25), inset 0 0 20px rgba(201,168,76,0.05);
+      overflow: visible;
+    }
+
+    /* Ribbon vertical */
+    .gift-body::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0; bottom: 0;
+      width: 18px;
+      background: linear-gradient(to bottom, var(--gold), var(--rose));
+      border-radius: 2px;
+    }
+
+    /* Ribbon horizontal */
+    .gift-body::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0; right: 0;
+      height: 18px;
+      background: linear-gradient(to right, var(--gold), var(--rose), var(--gold));
+      border-radius: 2px;
+    }
+
+    /* Lid */
+    .gift-lid {
+      width: 154px;
+      height: 36px;
+      background: linear-gradient(135deg, #220c3a 0%, #3a0e52 100%);
+      border: 2px solid var(--gold);
+      border-radius: 6px;
+      position: absolute;
+      top: -38px;
+      left: -9px;
+      box-shadow: 0 4px 15px rgba(201,168,76,0.2);
+      transform-origin: center bottom;
+      transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 5;
+    }
+
+    /* Lid ribbon strip */
+    .gift-lid::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0; bottom: 0;
+      width: 18px;
+      background: linear-gradient(to bottom, var(--gold), var(--rose));
+      border-radius: 2px;
+    }
+
+    /* Bow left loop */
+    .gift-bow {
+      position: absolute;
+      top: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 38px;
+      pointer-events: none;
+      transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s;
+    }
+
+    .gift-bow::before,
+    .gift-bow::after {
+      content: '';
+      position: absolute;
+      width: 26px;
+      height: 36px;
+      border: 3px solid var(--gold);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      top: 0;
+    }
+    .gift-bow::before {
+      left: 0;
+      transform: rotate(-30deg);
+      background: rgba(201,168,76,0.15);
+    }
+    .gift-bow::after {
+      right: 0;
+      transform: rotate(30deg);
+      background: rgba(185,90,120,0.15);
+    }
+
+    /* Stars on box */
+    .gift-star {
+      position: absolute;
+      color: var(--gold);
+      font-size: 0.9rem;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .gift-star:nth-child(1) { top: 15px; left: 15px; }
+    .gift-star:nth-child(2) { top: 15px; right: 18px; }
+    .gift-star:nth-child(3) { bottom: 18px; left: 22px; }
+    .gift-star:nth-child(4) { bottom: 18px; right: 15px; }
+
+    /* Open state */
+    .gift-wrap.opened .gift-lid {
+      transform: rotateX(-130deg) translateY(-10px);
+    }
+    .gift-wrap.opened .gift-bow {
+      transform: translateX(-50%) translateY(-30px) rotate(-15deg);
+      opacity: 0;
+    }
+
+    /* Glow pulse on hover */
+    .gift-wrap:not(.opened):hover .gift-body {
+      box-shadow: 0 8px 40px rgba(201,168,76,0.5), inset 0 0 30px rgba(201,168,76,0.1);
+      transition: box-shadow 0.3s;
+    }
+
+    /* Hint tap label */
+    .gift-hint {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1rem;
+      opacity: 0.7;
+      margin-top: 0.5rem;
+      display: block;
+      transition: opacity 0.4s;
+    }
+    .gift-wrap.opened ~ .gift-hint { opacity: 0; }
+
+    /* Surprise message */
+    .sb-message {
+      max-width: 520px;
+      margin: 2.5rem auto 0;
+      padding: 2rem 2.5rem;
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 16px;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s;
+      pointer-events: none;
+    }
+    .sb-message.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .sb-message-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--gold-l);
+      margin-bottom: 1rem;
+    }
+    .sb-message-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.88);
+      line-height: 1.8;
+    }
+    .sb-message-footer {
+      margin-top: 1.2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.3rem;
+      color: var(--rose-l);
+    }
+
+    /* ══════════════════════════════════════
        FINALE
     ══════════════════════════════════════ */
     #finale {
@@ -1581,6 +1777,41 @@
           Send to my love on WhatsApp
         </button>
         <p class="wb-note">Opens WhatsApp with your message — one tap to send 🖤</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SURPRISE BOX ── -->
+  <section id="surprisebox">
+    <div class="section-wrap">
+      <span class="eyebrow sb-eyebrow reveal">one last thing...</span>
+      <h2 class="sec-title sb-title reveal">A Little Surprise For You</h2>
+      <div class="gold-rule"></div>
+
+      <div class="gift-wrap reveal" id="giftBox">
+        <div class="gift-bow"></div>
+        <div class="gift-lid"></div>
+        <div class="gift-body">
+          <span class="gift-star">✦</span>
+          <span class="gift-star">✦</span>
+          <span class="gift-star">✦</span>
+          <span class="gift-star">✦</span>
+        </div>
+      </div>
+      <span class="gift-hint" id="giftHint">Tap the box to open your surprise ✨</span>
+
+      <div class="sb-message" id="sbMessage">
+        <div class="sb-message-title">You opened it! 🎁</div>
+        <p class="sb-message-text">
+          Inside this box is not a thing — it is a promise.<br/><br/>
+          A promise to love you on your good days and your hard days.<br/>
+          To be your home when everything else feels far away.<br/>
+          To make you laugh, to wipe your tears, to choose you — again and again,<br/>
+          every single day, for the rest of my life.<br/><br/>
+          You are my greatest gift, Alloo.<br/>
+          Happy Birthday. I am so lucky you exist. 🖤
+        </p>
+        <div class="sb-message-footer">— yours, always &amp; forever 💛</div>
       </div>
     </div>
   </section>
@@ -2174,6 +2405,30 @@ wbSend.addEventListener('click', () => {
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 });
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SURPRISE GIFT BOX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+(function initGiftBox() {
+  const box     = document.getElementById('giftBox');
+  const message = document.getElementById('sbMessage');
+  const hint    = document.getElementById('giftHint');
+  if (!box) return;
+
+  box.addEventListener('click', () => {
+    if (box.classList.contains('opened')) return;
+    box.classList.add('opened');
+    if (hint) hint.style.opacity = '0';
+
+    // Confetti burst
+    launchConfetti();
+
+    // Show message after lid animation
+    setTimeout(() => {
+      message.classList.add('visible');
+    }, 600);
+  });
+})();
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    MUSIC TOGGLE
