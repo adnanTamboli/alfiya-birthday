@@ -1625,17 +1625,6 @@ lockInput.addEventListener('input', () => {
   const val = lockInput.value.toLowerCase().trim();
   lockError.classList.remove('show');
 
-  // Unlock audio silently on first keystroke (mobile requires user gesture)
-  if (!bgAudio._unlocked) {
-    bgAudio.volume = 0;
-    bgAudio.play().then(() => {
-      bgAudio.pause();
-      bgAudio.currentTime = 0;
-      bgAudio.volume = 0.4;
-    }).catch(() => { bgAudio.volume = 0.4; });
-    bgAudio._unlocked = true;
-  }
-
   if (VALID.includes(val)) {
     unlock();
   }
