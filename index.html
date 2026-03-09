@@ -1514,6 +1514,12 @@ lockInput.addEventListener('input', () => {
   const val = lockInput.value.toLowerCase().trim();
   lockError.classList.remove('show');
 
+  // Unlock audio on first keystroke (mobile requires user gesture)
+  if (!bgAudio._unlocked) {
+    bgAudio.play().then(() => { bgAudio.pause(); bgAudio.currentTime = 0; }).catch(() => {});
+    bgAudio._unlocked = true;
+  }
+
   if (VALID.includes(val)) {
     unlock();
   }
