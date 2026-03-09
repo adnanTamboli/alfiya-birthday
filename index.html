@@ -983,6 +983,89 @@
     }
 
     /* ══════════════════════════════════════
+       WRITE BACK
+    ══════════════════════════════════════ */
+    #writeback { background: rgba(8,4,14,0.75); }
+
+    .wb-card {
+      background: rgba(13,8,20,0.8);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 4px;
+      padding: 2.5rem 2rem;
+    }
+
+    .wb-hint {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: rgba(224,208,184,0.6);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .wb-textarea {
+      width: 100%;
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.7;
+      padding: 1rem 1.2rem;
+      resize: none;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .wb-textarea::placeholder { color: rgba(201,168,76,0.25); }
+    .wb-textarea:focus { border-color: rgba(201,168,76,0.5); }
+
+    .wb-count {
+      text-align: right;
+      font-size: 0.78rem;
+      color: rgba(201,168,76,0.3);
+      margin: 0.4rem 0 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .wb-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, rgba(37,211,102,0.15), rgba(37,211,102,0.08));
+      border: 1px solid rgba(37,211,102,0.4);
+      border-radius: 3px;
+      color: #a8f0c0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .wb-btn:hover {
+      background: linear-gradient(135deg, rgba(37,211,102,0.25), rgba(37,211,102,0.15));
+      border-color: rgba(37,211,102,0.7);
+      box-shadow: 0 0 20px rgba(37,211,102,0.15);
+    }
+
+    .wb-btn-icon { font-size: 1.3rem; }
+
+    .wb-note {
+      text-align: center;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(201,168,76,0.3);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ══════════════════════════════════════
        FINALE
     ══════════════════════════════════════ */
     #finale {
@@ -1479,6 +1562,26 @@
             Nobody knows us better than you. 🖤
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WRITE BACK ── -->
+  <section id="writeback">
+    <div class="section-wrap" style="max-width:620px">
+      <span class="eyebrow reveal">from miles away</span>
+      <h2 class="sec-title reveal">Write Back to Me, Aloo</h2>
+      <div class="gold-rule"></div>
+
+      <div class="wb-card reveal">
+        <p class="wb-hint">Whatever you're feeling right now — write it. I'm waiting. 🖤</p>
+        <textarea id="wbText" class="wb-textarea" placeholder="Type your heart out, Aloo..." maxlength="600" rows="5"></textarea>
+        <div class="wb-count"><span id="wbLen">0</span>/600</div>
+        <button class="wb-btn" id="wbSend">
+          <span class="wb-btn-icon">💬</span>
+          Send to my love on WhatsApp
+        </button>
+        <p class="wb-note">Opens WhatsApp with your message — one tap to send 🖤</p>
       </div>
     </div>
   </section>
@@ -2054,6 +2157,30 @@ function initScrollReveal() {
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   WRITE BACK → WHATSAPP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const WA_NUMBER = '917020695247';
+const wbText    = document.getElementById('wbText');
+const wbLen     = document.getElementById('wbLen');
+const wbSend    = document.getElementById('wbSend');
+
+wbText.addEventListener('input', () => {
+  wbLen.textContent = wbText.value.length;
+});
+
+wbSend.addEventListener('click', () => {
+  const msg = wbText.value.trim();
+  if (!msg) {
+    wbText.focus();
+    wbText.style.borderColor = 'rgba(194,24,91,0.6)';
+    setTimeout(() => wbText.style.borderColor = '', 1500);
+    return;
+  }
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+});
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    MUSIC TOGGLE
