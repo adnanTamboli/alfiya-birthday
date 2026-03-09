@@ -1762,7 +1762,7 @@ const SCENES = [
 let sceneIdx = 0;
 const cinematic = document.getElementById('cinematic');
 const cineText  = document.getElementById('cineText');
-const skipBtn   = document.getElementById('skipBtn');
+const skipBtn   = null; // removed from UI
 
 function startCinematic() {
   cinematic.classList.remove('hidden');
@@ -1788,7 +1788,7 @@ function endCinematic() {
   showMain();
 }
 
-skipBtn.addEventListener('click', endCinematic);
+// skip button removed
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SHOW MAIN
